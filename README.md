@@ -2,7 +2,7 @@
 
 給國小學生的雙關 3D 理財冒險。玩家先分配模擬零用錢，再認識分散投資如何降低單一標的風險。回答本關問題才能取得星鑰匙。
 
-主角採用像素風精靈造型：銀白長髮、尖耳、綠色森林服裝與星光法杖。像素人物疊在 3D 霧林場景中，並有兩格移動動畫。
+整個遊戲採用明亮的像素奇幻森林風格：銀白長髮精靈、翡翠洞窟、發光水晶、藤蔓、森林小精靈與像素邊框介面。使用 320×180 像素畫布放大呈現，包含主角移動動畫。
 
 ## 開始遊玩
 
@@ -12,7 +12,7 @@
 py -m http.server 8000
 ```
 
-接著瀏覽 `http://localhost:8000`。遊戲用 Three.js ES modules 和 GLB 模型，需透過本機 HTTP 伺服器開啟，不要直接雙擊 HTML。
+接著瀏覽 `http://localhost:8000`。遊戲以原生 Canvas 繪製像素場景，無需安裝套件；使用本機 HTTP 伺服器可避免瀏覽器的檔案權限限制。
 
 ### 操作方式
 
@@ -33,7 +33,7 @@ py -m http.server 8000
 ## 內容
 
 - `index.html`, `styles.css`, `game.js`：可直接部署的靜態網頁遊戲
-- `assets/starlight_lantern.glb`：由 Blender 製作並在遊戲場景中使用的模型
+- `assets/starlight_lantern.glb`：由 Blender 製作的原創模型資產
 - `blender/create_starlight_lantern.py`：Blender 模型製作腳本
 - `blender/starlight_lantern.blend`：可繼續編輯的 Blender 專案
 - `godot/`：同一題材的 Godot 4.7 專案雛型

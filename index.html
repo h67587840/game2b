@@ -7,14 +7,6 @@
   <meta name="description" content="陪小小探險家在霧林中學會預算分配與分散投資風險。">
   <title>小小守財者：霧林尋寶</title>
   <link rel="stylesheet" href="./styles.css">
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-    }
-  }
-  </script>
 </head>
 <body>
   <main class="game-shell">
@@ -24,9 +16,9 @@
       <div class="score-card"><span class="eyebrow">本關星星分</span><strong id="score">000</strong><span class="key-chip" id="key-status">✦ 找到鑰匙</span></div>
     </header>
 
-    <section class="game-stage" id="top" aria-label="3D 遊戲場景">
+    <section class="game-stage" id="top" aria-label="像素奇幻森林遊戲場景">
       <div class="scene-wash"></div>
-      <canvas id="world" aria-label="霧林 3D 遊戲畫面"></canvas>
+      <canvas id="world" aria-label="霧林像素遊戲畫面"></canvas>
       <div class="scene-title"><span class="chapter-number" id="chapter-number">01</span><div><span class="eyebrow" id="chapter-tag">生活理財・第一課</span><h1 id="scene-heading">月光市集</h1></div></div>
       <div class="scene-tip" id="scene-tip"><span class="tip-icon">✧</span><span>沿著星光前進，找發光的知識石碑</span></div>
       <div class="game-toast" id="toast" aria-live="polite"></div>
@@ -69,7 +61,7 @@
     </section>
   </dialog>
 
-  <aside class="loading-note" id="loading-note" aria-live="polite">正在點亮霧林…</aside>
+  <aside class="loading-note" id="loading-note" aria-live="polite">像素森林已點亮</aside>
   <script type="module" src="./game.js"></script>
 </body>
 </html>
