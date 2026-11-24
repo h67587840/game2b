@@ -273,12 +273,20 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 
-document.querySelector('#start-button').addEventListener('click',()=>{running=true;ui.start.classList.add('hidden');toast('沿著森林小徑前進，靠近石碑按 E');});
+function beginGame(){
+  if(running||finished)return;
+  running=true;ui.start.classList.add('hidden');toast('沿著森林小徑前進，靠近石碑按 E');playTone(560,.12);
+}
+const startButton=document.querySelector('#start-button');
+startButton.addEventListener('click',beginGame);
+startButton.addEventListener('pointerup',e=>{if(e.pointerType==='touch')beginGame();});
+ui.start.addEventListener('click',e=>{if(e.target===ui.start)beginGame();});
 document.querySelector('#replay-button').addEventListener('click',restart);
 document.querySelector('#sound-toggle').addEventListener('click',e=>{audioOn=!audioOn;e.currentTarget.classList.toggle('active',audioOn);e.currentTarget.setAttribute('aria-label',audioOn?'音效開啟':'音效關閉');if(audioOn)playTone();});
 window.addEventListener('keydown',e=>{
   if(['ArrowLeft','ArrowRight','ArrowUp',' '].includes(e.key))e.preventDefault();
   if(e.repeat)return;
+  if(!running&&!finished&&!ui.start.classList.contains('hidden')&&[' ','Enter','ArrowUp'].includes(e.key)){beginGame();return;}
   if(['a','A','ArrowLeft'].includes(e.key))held.left=true;
   if(['d','D','ArrowRight'].includes(e.key))held.right=true;
   if([' ','w','W','ArrowUp'].includes(e.key)&&running&&jumpY===0)jumpVelocity=245;
