@@ -280,6 +280,9 @@ function beginGame(){
 const startButton=document.querySelector('#start-button');
 startButton.addEventListener('click',beginGame);
 startButton.addEventListener('pointerup',e=>{if(e.pointerType==='touch')beginGame();});
+const startCard=document.querySelector('.start-card');
+startCard.addEventListener('click',e=>{if(e.target!==startButton&&!startButton.contains(e.target))beginGame();});
+startCard.addEventListener('pointerup',e=>{if(e.pointerType==='touch'&&e.target!==startButton&&!startButton.contains(e.target))beginGame();});
 ui.start.addEventListener('click',e=>{if(e.target===ui.start)beginGame();});
 document.querySelector('#replay-button').addEventListener('click',restart);
 document.querySelector('#sound-toggle').addEventListener('click',e=>{audioOn=!audioOn;e.currentTarget.classList.toggle('active',audioOn);e.currentTarget.setAttribute('aria-label',audioOn?'音效開啟':'音效關閉');if(audioOn)playTone();});
