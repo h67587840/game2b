@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#11192c">
+  <meta name="description" content="陪小小探險家在霧林中學會預算分配與分散投資風險。">
+  <title>小小守財者：霧林尋寶</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="小小守財者首頁"><span class="brand-mark">✦</span><span>小小守財者<small>霧林尋寶</small></span></a>
+      <div class="chapter"><span class="eyebrow">目前旅程</span><strong id="chapter-name">序章・月光市集</strong></div>
+      <div class="score-card"><span class="eyebrow">本關星星分</span><strong id="score">000</strong><span class="key-chip" id="key-status">✦ 找到鑰匙</span></div>
+    </header>
+
+    <section class="game-stage" id="top" aria-label="3D 遊戲場景">
+      <div class="scene-wash"></div>
+      <canvas id="world" aria-label="霧林 3D 遊戲畫面"></canvas>
+      <div class="scene-title"><span class="chapter-number" id="chapter-number">01</span><div><span class="eyebrow" id="chapter-tag">生活理財・第一課</span><h1 id="scene-heading">月光市集</h1></div></div>
+      <div class="scene-tip" id="scene-tip"><span class="tip-icon">✧</span><span>沿著星光前進，找發光的知識石碑</span></div>
+      <div class="game-toast" id="toast" aria-live="polite"></div>
+      <div class="mobile-controls" aria-label="觸控操作">
+        <div class="move-controls"><button data-hold="left" aria-label="向左">◀</button><button data-hold="right" aria-label="向右">▶</button></div>
+        <div class="action-controls"><button data-action="jump">跳躍</button><button data-action="interact">互動</button><button data-action="wave">✧ 光波</button></div>
+      </div>
+      <div class="start-screen" id="start-screen">
+        <div class="start-card"><span class="eyebrow">兩個小任務，一場大冒險</span><h2>霧林的星星<br>需要你的智慧</h2><p>幫小小探險家找回兩把星鑰匙，學會分配零用錢，也認識投資風險。</p><button class="primary-button" id="start-button">開始冒險 <span>→</span></button><span class="start-hint">鍵盤 WASD / 方向鍵，空白鍵跳躍</span></div>
+      </div>
+    </section>
+
+    <footer class="bottom-bar">
+      <div class="quest"><span class="quest-icon">☼</span><div><span class="eyebrow">冒險目標</span><strong id="objective">探索霧林，找到預算知識石碑</strong></div></div>
+      <div class="control-legend"><span><kbd>A</kbd><kbd>D</kbd> 移動</span><span><kbd>空白</kbd> 跳躍</span><span><kbd>E</kbd> 互動</span><span><kbd>F</kbd> 光波</span></div>
+      <button class="sound-toggle" id="sound-toggle" aria-label="音效開關" title="音效開關">♫</button>
+    </footer>
+  </main>
+
+  <dialog class="quiz-dialog" id="quiz-dialog">
+    <form method="dialog" class="quiz-card" id="quiz-card">
+      <div class="quiz-meta"><span class="eyebrow" id="quiz-meta">月光市集・理財小任務</span><span class="quiz-star">✦</span></div>
+      <h2 id="quiz-title">問題標題</h2>
+      <p class="quiz-description" id="quiz-description"></p>
+      <div class="answers" id="answers"></div>
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <p class="quiz-footnote">答對就能取得星鑰匙。答錯也沒關係，可以看提示再試一次。</p>
+    </form>
+  </dialog>
+
+  <dialog class="result-dialog" id="result-dialog">
+    <section class="result-card">
+      <div class="result-stars" aria-hidden="true">✦ ✧ ✦</div>
+      <span class="eyebrow">霧林冒險完成</span>
+      <h2>你的理財星光<br>又亮了一點</h2>
+      <div class="result-scores" id="result-scores"></div>
+      <p class="progress-copy" id="progress-copy"></p>
+      <p class="safety-note">投資有風險，分散投資不能保證獲利。遊戲星星幣是模擬代幣。</p>
+      <button class="primary-button" id="replay-button">再玩一次 <span>↻</span></button>
+    </section>
+  </dialog>
+
+  <aside class="loading-note" id="loading-note" aria-live="polite">正在點亮霧林…</aside>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>

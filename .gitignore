@@ -1,0 +1,11 @@
+# Godot editor cache and imported artifacts
+godot/.godot/
+godot/*.tmp
+
+# Blender autosaves and backups
+*.blend1
+*.blend2
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
