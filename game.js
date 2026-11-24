@@ -35,6 +35,8 @@ scene.add(player);
 let lantern = null;
 let moth = null;
 let keyMesh = null;
+let heroTexture = null;
+let heroSprite = null;
 let running = false;
 let level = 1;
 let score = [0, 0];
@@ -165,12 +167,79 @@ function buildWorld() {
 
 function buildHero() {
   for (const child of [...player.children]) player.remove(child);
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.31, 0.58, 4, 10), mats.hero);
-  body.position.y = 0.78; body.castShadow = true; player.add(body);
-  sphere(player, 'Red hood', 0.27, [0, 1.32, -0.02], mats.hood, [1.0, 1.13, 0.84]);
-  sphere(player, 'Little face', 0.12, [0.07, 1.25, 0.22], mats.skin, [0.95, 0.92, 0.65]);
-  sphere(player, 'Hand lantern', 0.09, [0.33, 0.75, 0.29], mats.cream);
+  if (!heroTexture) heroTexture = createElfSpriteTexture();
+  const spriteMaterial = new THREE.SpriteMaterial({ map: heroTexture, transparent: true, alphaTest: 0.08, depthWrite: false });
+  heroSprite = new THREE.Sprite(spriteMaterial);
+  heroSprite.name = 'Pixel Elf Explorer';
+  heroSprite.scale.set(1.55, 1.94, 1);
+  heroSprite.position.y = 0.98;
+  player.add(heroSprite);
   player.position.set(x, y, 0.5);
+}
+
+function createElfSpriteTexture() {
+  // Two crisp 16×20 pixel frames: a silver-haired forest elf in green travel clothes.
+  const canvas = document.createElement('canvas');
+  canvas.width = 64; canvas.height = 40;
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  const C = {
+    outline: '#263a3d', hairShadow: '#81939b', hair: '#d5dedb', hairLight: '#f5f2e8',
+    skinShadow: '#d69891', skin: '#f3c0aa', skinLight: '#ffd8c1', eye: '#357d59', eyeLight: '#b9e89f',
+    leafDark: '#276344', leaf: '#438c58', leafLight: '#8cc878', clothDark: '#29553e',
+    cloth: '#3f8251', clothLight: '#85b96a', belt: '#dbc28c', beltDark: '#8c694a',
+    scarf: '#c65b4e', boot: '#705342', bootLight: '#aa7952', gold: '#f0ce76'
+  };
+  const px = (frame, x, y, w, h, color) => { ctx.fillStyle = color; ctx.fillRect(frame * 32 + x * 2, y * 2, w * 2, h * 2); };
+  for (let f = 0; f < 2; f++) {
+    // Leaf cape and long side locks frame the little face.
+    px(f, 2, 10, 3, 7, C.outline); px(f, 2, 11, 2, 5, C.leafDark); px(f, 3, 11, 2, 4, C.leaf);
+    px(f, 3, 13, 2, 1, C.leafLight); px(f, 3, 15, 2, 1, C.leafDark);
+    // Pointed elf ears, outlined with soft peach inner pixels.
+    px(f, 1, 7, 4, 2, C.outline); px(f, 0, 7, 3, 1, C.skinShadow); px(f, 2, 7, 2, 1, C.skinLight);
+    px(f, 12, 7, 4, 2, C.outline); px(f, 13, 7, 3, 1, C.skinShadow); px(f, 13, 7, 2, 1, C.skinLight);
+    // Face silhouette, cheeks and bright green eyes.
+    px(f, 4, 5, 9, 9, C.outline); px(f, 5, 6, 7, 7, C.skin); px(f, 6, 7, 6, 5, C.skinLight);
+    px(f, 5, 11, 2, 1, C.skinShadow); px(f, 10, 11, 2, 1, C.skinShadow);
+    px(f, 6, 9, 2, 2, C.outline); px(f, 10, 9, 2, 2, C.outline);
+    px(f, 6, 9, 1, 2, C.eye); px(f, 10, 9, 1, 2, C.eye);
+    px(f, 6, 9, 1, 1, C.eyeLight); px(f, 10, 9, 1, 1, C.eyeLight);
+    px(f, 8, 12, 2, 1, C.skinShadow);
+    // Flowing silver hair, long side pieces, and a swept fringe.
+    px(f, 4, 2, 8, 4, C.outline); px(f, 5, 1, 7, 4, C.hairShadow);
+    px(f, 5, 1, 6, 3, C.hair); px(f, 7, 1, 3, 1, C.hairLight);
+    px(f, 4, 4, 3, 5, C.hairShadow); px(f, 4, 5, 2, 8, C.outline);
+    px(f, 5, 5, 2, 7, C.hair); px(f, 5, 6, 1, 5, C.hairLight);
+    px(f, 11, 4, 3, 6, C.hairShadow); px(f, 12, 6, 2, 9, C.outline);
+    px(f, 12, 7, 2, 6, C.hair); px(f, 13, 8, 1, 4, C.hairLight);
+    px(f, 7, 4, 5, 2, C.hair); px(f, 8, 4, 3, 1, C.hairLight);
+    px(f, 9, 5, 3, 2, C.hair); px(f, 10, 6, 2, 1, C.hairLight);
+    // Forest tunic, tiny red scarf, belt and leaf-shaped shoulder bow.
+    px(f, 5, 13, 8, 6, C.outline); px(f, 6, 14, 6, 4, C.clothDark);
+    px(f, 7, 14, 4, 4, C.cloth); px(f, 8, 14, 2, 2, C.clothLight);
+    px(f, 6, 13, 6, 2, C.scarf); px(f, 10, 13, 3, 1, C.scarf);
+    px(f, 7, 17, 5, 1, C.beltDark); px(f, 8, 17, 3, 1, C.belt); px(f, 9, 17, 1, 1, C.gold);
+    px(f, 4, 14, 2, 3, C.skinShadow); px(f, 4, 14, 1, 2, C.skinLight);
+    px(f, 12, 14, 2, 3, C.skinShadow); px(f, 12, 14, 1, 2, C.skinLight);
+    px(f, 3, 13, 2, 2, C.leafDark); px(f, 3, 12, 2, 2, C.leaf); px(f, 4, 12, 1, 1, C.leafLight);
+    // Small star wand for the gentle light-wave action.
+    px(f, 14, 13, 1, 4, C.beltDark); px(f, 14, 12, 1, 1, C.gold); px(f, 13, 12, 1, 1, C.gold);
+    // Alternate feet make the sprite feel alive while moving.
+    if (f === 0) {
+      px(f, 6, 18, 3, 1, C.outline); px(f, 6, 19, 3, 1, C.boot); px(f, 6, 19, 2, 1, C.bootLight);
+      px(f, 10, 18, 3, 1, C.outline); px(f, 10, 19, 3, 1, C.boot); px(f, 11, 19, 2, 1, C.bootLight);
+    } else {
+      px(f, 6, 18, 3, 1, C.outline); px(f, 5, 19, 3, 1, C.boot); px(f, 5, 19, 2, 1, C.bootLight);
+      px(f, 10, 18, 3, 1, C.outline); px(f, 11, 19, 3, 1, C.boot); px(f, 12, 19, 2, 1, C.bootLight);
+      px(f, 3, 14, 2, 1, C.leafLight);
+    }
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.magFilter = THREE.NearestFilter; texture.minFilter = THREE.NearestFilter;
+  texture.generateMipmaps = false; texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.repeat.set(0.5, 1); texture.offset.set(0, 0);
+  return texture;
 }
 function buildMoth() {
   moth = new THREE.Group(); moth.name = 'Gentle shadow moth'; moth.position.set(0.4, 0.85, 0.35);
@@ -350,7 +419,7 @@ function animate() {
   if (running && !finished && !ui.quiz.open) {
     const direction = Number(held.right) - Number(held.left);
     x = THREE.MathUtils.clamp(x + direction * 4.5 * dt, -7.7, 7.5);
-    if (direction) player.rotation.y = direction > 0 ? 0 : Math.PI;
+    if (heroTexture && heroSprite) heroTexture.offset.x = direction ? Math.floor(clock.elapsedTime * 7) % 2 * 0.5 : 0;
     vy -= 19 * dt; y = Math.max(0, y + vy * dt); if (y === 0) vy = 0;
     player.position.set(x, y, 0.5);
     if (waveCooldown > 0) waveCooldown -= dt;
